@@ -1,6 +1,7 @@
 target/
-project/
 .bloop/
 .vscode/
 .metals/
+.bsp/
+metals.sbt
 imgui.ini
