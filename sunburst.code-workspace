@@ -1,18 +1,18 @@
 {
-	"folders": [
-		{
-			"path": "."
-		},
-		{
-			"path": "app"
-		},
-		{
-			"path": "window"
-		}
-	],
-	"settings": {
-		"files.watcherExclude": {
-			"**/target": true
-		}
-	}
+  "folders": [
+    {
+      "path": "."
+    },
+    {
+      "path": "app"
+    },
+    {
+      "path": "window"
+    }
+  ],
+  "settings": {
+    "files.watcherExclude": {
+      "**/target": true
+    }
+  }
 }
