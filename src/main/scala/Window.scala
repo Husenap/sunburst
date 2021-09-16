@@ -1,11 +1,11 @@
-import org.lwjgl.glfw.*
-import org.lwjgl.glfw.GLFW.*
-import org.lwjgl.glfw.Callbacks.*
-import org.lwjgl.opengl.*
-import org.lwjgl.opengl.GL11.*
-import org.lwjgl.system.MemoryUtil.*
+import org.lwjgl.glfw._
+import org.lwjgl.glfw.GLFW._
+import org.lwjgl.glfw.Callbacks._
+import org.lwjgl.opengl._
+import org.lwjgl.opengl.GL11._
+import org.lwjgl.system.MemoryUtil._
 
-import imgui.*
+import imgui._
 import imgui.glfw.ImGuiImplGlfw
 import imgui.gl3.ImGuiImplGl3
 import imgui.flag.ImGuiConfigFlags
