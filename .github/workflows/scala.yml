@@ -1,6 +1,6 @@
 name: Scala CI
 
-on: [push, pull_request]
+on: [push]
 
 jobs:
   build:
@@ -22,7 +22,7 @@ jobs:
         distribution: 'adopt'
     
     - name: Install sbt
-      if: ${{matrix.os}} == 'macos-latest'
+      if: ${{ matrix.os == 'macos-latest' }}
       run: brew install sbt
         
     - name: Run Tests
