@@ -1,14 +1,22 @@
-import org.lwjgl.glfw._
-import org.lwjgl.glfw.GLFW._
-import org.lwjgl.glfw.Callbacks._
-import org.lwjgl.opengl._
-import org.lwjgl.opengl.GL11._
-import org.lwjgl.system.MemoryUtil._
-
-import imgui._
-import imgui.glfw.ImGuiImplGlfw
-import imgui.gl3.ImGuiImplGl3
+import imgui.*
 import imgui.flag.ImGuiConfigFlags
+import imgui.gl3.ImGuiImplGl3
+import imgui.glfw.ImGuiImplGlfw
+import org.lwjgl.*
+import org.lwjgl.glfw.Callbacks.*
+import org.lwjgl.glfw.GLFW.*
+import org.lwjgl.glfw.*
+import org.lwjgl.opengl.GL11.*
+import org.lwjgl.opengl.GL12.*
+import org.lwjgl.opengl.GL13.*
+import org.lwjgl.opengl.GL30.*
+import org.lwjgl.opengl.*
+import org.lwjgl.stb.*
+import org.lwjgl.system.MemoryStack
+import org.lwjgl.system.MemoryUtil.*
+
+import java.nio.ByteBuffer
+import java.nio.file.Paths
 
 class Window:
   var glslVersion: String = ""
@@ -17,11 +25,58 @@ class Window:
   val imGuiGlfw = ImGuiImplGlfw()
   val imGuiGl3 = ImGuiImplGl3()
 
+  val texture = Array(0)
+
   def init() =
     initWindow()
     initImGui()
     imGuiGlfw.init(handle, true)
     imGuiGl3.init(glslVersion)
+
+    val classloader = Thread.currentThread.getContextClassLoader
+    val is = classloader.getResourceAsStream("breakthrough.png")
+    val bytes = is.readAllBytes
+    val bytebuffer = BufferUtils.createByteBuffer(bytes.length)
+    bytebuffer.put(bytes)
+    bytebuffer.flip()
+
+    val x = Array(0)
+    val y = Array(0)
+    val n = Array(0)
+    val pixels = STBImage.stbi_load_from_memory(
+      bytebuffer,
+      x,
+      y,
+      n,
+      4
+    )
+
+    if pixels == null then println("failed")
+    else println("success")
+    println(STBImage.stbi_failure_reason())
+    println(s"${x(0)}x${y(0)} with ${n(0)} channels")
+
+    glGenTextures(texture)
+    glActiveTexture(GL_TEXTURE0)
+    glBindTexture(GL_TEXTURE_2D, texture(0))
+
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MIN_FILTER, GL_LINEAR)
+    glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_MAG_FILTER, GL_LINEAR)
+
+    glTexImage2D(
+      GL_TEXTURE_2D,
+      0,
+      GL_RGBA,
+      x(0),
+      y(0),
+      0,
+      GL_RGBA,
+      GL_UNSIGNED_BYTE,
+      pixels
+    )
+    glGenerateMipmap(GL_TEXTURE_2D)
 
   def dispose() =
     imGuiGl3.dispose
@@ -93,6 +148,11 @@ class Window:
 
   def process() =
     ImGui.showDemoWindow()
+
+    if ImGui.begin("hejsan") then
+      ImGui.labelText("hejsan", "mannen")
+      ImGui.image(texture(0), 400f, 400f)
+    ImGui.end()
 
   def endFrame() =
     ImGui.render
