@@ -1,4 +1,4 @@
-name: Scala
+name: Build
 
 on: [push]
 
@@ -24,9 +24,6 @@ jobs:
     - name: Install sbt
       if: ${{ matrix.os == 'macos-latest' }}
       run: brew install sbt
-        
-    - name: Run Tests
-      run: sbt test
 
     - name: Assemble Jar
       run: sbt assembly
@@ -34,6 +31,6 @@ jobs:
     - name: Upload Build Artifact
       uses: actions/upload-artifact@v2.2.4
       with:
-        name: "Assembly"
+        name: "Sunburst"
         path: "app/target/scala-3.0.2/sunburst.jar"
 
