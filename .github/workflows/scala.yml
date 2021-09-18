@@ -27,3 +27,13 @@ jobs:
         
     - name: Run Tests
       run: sbt test
+
+    - name: Assemble Jar
+      run: sbt assembly
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: "Assembly"
+        path: "app/target/scala-3.0.2/sunburst.jar"
+
