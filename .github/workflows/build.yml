@@ -8,9 +8,9 @@ jobs:
       fail-fast: false
       matrix:
         conf:
-          - { os: ubuntu-latest, artifact: linux}
-          - { os: windows-latest, artifact: windows}
-          - { os: macos-latest, artifact: macos}
+          - { os: ubuntu-latest, artifact: Linux}
+          - { os: windows-latest, artifact: Windows}
+          - { os: macos-latest, artifact: MacOS}
 
     runs-on: ${{ matrix.conf.os }}
 
