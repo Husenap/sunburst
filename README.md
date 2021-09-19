@@ -14,4 +14,4 @@ Uses:
 You can:
 * compile code with `sbt compile`
 * run it with `sbt app/run`
-* assembly it with `sbt assembly`
+* assemble it with `sbt assembly`
