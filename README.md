@@ -1,5 +1,5 @@
 [![Build](https://github.com/Husenap/sunburst/actions/workflows/build.yml/badge.svg)](https://github.com/Husenap/sunburst/actions/workflows/build.yml)
-[![](https://jitpack.io/v/Husenap/sunburst.svg)](https://jitpack.io/#Husenap/sunburst)
+[![](https://jitpack.io/v/husenap/sunburst.svg)](https://jitpack.io/#husenap/sunburst)
 
 # Sunburst
 
