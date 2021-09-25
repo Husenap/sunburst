@@ -1,7 +1,6 @@
-ThisBuild / organization  := "Husenap"
-ThisBuild / version       := "0.1.0"
-ThisBuild / scalaVersion  := "3.0.2"
-ThisBuild / versionScheme := Some("early-semver")
+ThisBuild / organization := "Husenap"
+ThisBuild / version      := "0.1.0"
+ThisBuild / scalaVersion := "3.0.2"
 
 ThisBuild / run / fork := true
 
