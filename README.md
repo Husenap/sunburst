@@ -1,4 +1,4 @@
-[![Scala](https://github.com/Husenap/sunburst/actions/workflows/scala.yml/badge.svg)](https://github.com/Husenap/sunburst/actions/workflows/scala.yml)
+[![Build](https://github.com/Husenap/sunburst/actions/workflows/build.yml/badge.svg)](https://github.com/Husenap/sunburst/actions/workflows/build.yml)
 
 # Sunburst
 
@@ -11,5 +11,7 @@ Uses:
 
 ### Usage
 
-This is a normal sbt project.
-You can compile code with `sbt compile`, run it with `sbt run`
+You can:
+* compile code with `sbt compile`
+* run it with `sbt app/run`
+* assemble it with `sbt assembly`

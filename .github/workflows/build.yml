@@ -1,0 +1,39 @@
+name: Build
+
+on: [push]
+
+jobs:
+  build:
+    strategy:
+      fail-fast: false
+      matrix:
+        conf:
+          - { os: ubuntu-latest, artifact: Linux}
+          - { os: windows-latest, artifact: Windows}
+          - { os: macos-latest, artifact: MacOS}
+
+    runs-on: ${{ matrix.conf.os }}
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v2
+    
+    - name: Set up JDK 11
+      uses: actions/setup-java@v2
+      with:
+        java-version: '11'
+        distribution: 'adopt'
+    
+    - name: Install sbt
+      if: ${{ matrix.conf.os == 'macos-latest' }}
+      run: brew install sbt
+
+    - name: Assemble Jar
+      run: sbt assembly
+
+    - name: Upload Build Artifact
+      uses: actions/upload-artifact@v2.2.4
+      with:
+        name: 'Sunburst ${{ matrix.conf.artifact }}'
+        path: "app/target/scala-3.0.2/sunburst.jar"
+

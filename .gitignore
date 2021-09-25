@@ -4,6 +4,6 @@
 .bsp/
 
 target/
-bin/
+sandbox/
 
 metals.sbt
