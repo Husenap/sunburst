@@ -23,7 +23,7 @@ jobs:
       with:
         java-version: '11'
         distribution: 'adopt'
-    
+
     - name: Install sbt
       if: ${{ matrix.conf.os == 'macos-latest' }}
       run: brew install sbt

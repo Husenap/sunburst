@@ -1,3 +1,5 @@
+import sunburst.window.Window
+
 class Application:
   val window = Window()
   def run() =
