@@ -1,5 +1,5 @@
 ThisBuild / organization := "Husenap"
-ThisBuild / version      := "0.1.0"
+ThisBuild / version      := "0.2.0"
 ThisBuild / scalaVersion := "3.0.2"
 
 ThisBuild / run / fork := true
@@ -16,10 +16,10 @@ ThisBuild / assemblyMergeStrategy := {
 val osNames      = Seq("linux", "windows", "macos")
 val lwjglModules = Seq("lwjgl", "lwjgl-glfw", "lwjgl-stb")
 
-lazy val core = (project in file("core"))
+lazy val core = (project in file("."))
   .settings(
-    name                                    := "sunburst-core",
-    assembly / assemblyJarName              := "sunburst-core.jar",
+    name                                    := "sunburst",
+    assembly / assemblyJarName              := "sunburst.jar",
     libraryDependencies ++= lwjglModules
       .map(module =>
         osNames.map(osName =>
@@ -35,10 +35,10 @@ lazy val core = (project in file("core"))
     libraryDependencies += "io.github.spair" % "imgui-java-lwjgl3" % "1.84.1.0"
   )
 
-lazy val app = (project in file("app"))
+lazy val example = (project in file("example"))
   .settings(
-    name                          := "sunburst-app",
-    assembly / assemblyJarName    := "sunburst-app.jar",
+    name                          := "sunburst-example",
+    assembly / assemblyJarName    := "sunburst-example.jar",
     Compile / run / baseDirectory := {
       val f = file("sandbox")
       IO.createDirectory(f)
@@ -46,9 +46,3 @@ lazy val app = (project in file("app"))
     }
   )
   .dependsOn(core)
-
-lazy val root = (project in file("."))
-  .settings(
-    name := "sunburst"
-  )
-  .aggregate(core)
