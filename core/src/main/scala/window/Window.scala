@@ -1,3 +1,7 @@
+package sunburst.window
+
+import sunburst.graphics.framework.*
+
 import imgui.*
 import imgui.flag.ImGuiConfigFlags
 import imgui.gl3.ImGuiImplGl3
@@ -185,8 +189,8 @@ class Window:
     ImGui.showDemoWindow()
 
     if ImGui.begin("Texture Viewer") then
-      ImGui.image(texture.getId(), 80, 80)
-      ImGui.image(texture.getId(), 800, 800)
+      ImGui.image(texture.textureId, 80, 80)
+      ImGui.image(texture.textureId, 800, 800)
     ImGui.end()
 
   def endFrame() =
