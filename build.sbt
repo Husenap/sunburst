@@ -2,25 +2,7 @@ ThisBuild / organization := "Husenap"
 ThisBuild / version      := "0.2.0"
 ThisBuild / scalaVersion := "3.0.2"
 
-Compile / scalacOptions ++= Seq(
-  "-source",
-  "future"
-)
-
-Compile / doc / scalacOptions ++= Seq(
-  "-groups",
-  "-social-links:github::https://github.com/husenap/sunburst",
-  "-source-links:github://husenap/sunburst/develop",
-  "-siteroot",
-  "."
-)
-
-ThisBuild / assemblyMergeStrategy := {
-  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
-  case x                             =>
-    val oldStrategy = (ThisBuild / assemblyMergeStrategy).value
-    oldStrategy(x)
-}
+Global / onChangedBuildSource := ReloadOnSourceChanges
 
 lazy val osNames      = Seq("linux", "windows", "macos")
 lazy val lwjglModules = Seq("lwjgl", "lwjgl-glfw", "lwjgl-stb")
@@ -44,14 +26,12 @@ lazy val dependencies = Seq(
 lazy val core = (project in file("."))
   .settings(dependencies)
   .settings(
-    name                       := "sunburst",
-    assembly / assemblyJarName := s"${name.value}.jar"
+    name := "sunburst"
   )
 
 lazy val example = (project in file("example"))
   .settings(
     name                          := "sunburst-example",
-    assembly / assemblyJarName    := s"${name.value}.jar",
     Compile / run / fork          := true,
     Compile / run / baseDirectory := {
       val f = file("sandbox")
@@ -60,3 +40,13 @@ lazy val example = (project in file("example"))
     }
   )
   .dependsOn(core)
+
+// format: off
+Compile / doc / scalacOptions ++= Seq(
+  "-groups",
+  "-project-version", version.value,
+  "-social-links:github::https://github.com/husenap/sunburst",
+  "-source-links:github://husenap/sunburst/develop",
+  "-siteroot", "."
+)
+// format: on
