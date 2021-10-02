@@ -1,48 +1,53 @@
+import sunburst._
+
 ThisBuild / organization := "Husenap"
 ThisBuild / version      := "0.2.0"
 ThisBuild / scalaVersion := "3.0.2"
 
-ThisBuild / run / fork := true
+Global / onChangedBuildSource := ReloadOnSourceChanges
 
-Compile / doc / scalacOptions := Seq("-groups", "-implicits")
+lazy val userProjects: Seq[ProjectReference] = List[ProjectReference](
+  sunburstCore
+)
 
-ThisBuild / assemblyMergeStrategy := {
-  case PathList("META-INF", xs @ _*) => MergeStrategy.discard
-  case x                             =>
-    val oldStrategy = (ThisBuild / assemblyMergeStrategy).value
-    oldStrategy(x)
-}
+lazy val aggregatedProjects: Seq[ProjectReference] =
+  userProjects ++ List[ProjectReference](
+    sunburstEditor
+  )
 
-val osNames      = Seq("linux", "windows", "macos")
-val lwjglModules = Seq("lwjgl", "lwjgl-glfw", "lwjgl-stb")
-
-lazy val core = (project in file("."))
+lazy val root = (project in file("."))
+  .aggregate(aggregatedProjects: _*)
   .settings(
-    name                                    := "sunburst",
-    assembly / assemblyJarName              := "sunburst.jar",
-    libraryDependencies ++= lwjglModules
-      .map(module =>
-        osNames.map(osName =>
-          "org.lwjgl" % s"$module" % "3.2.3" classifier s"natives-$osName"
-        )
-      )
-      .flatten,
-    libraryDependencies ++= osNames.map(osName =>
-      "io.github.spair" % s"imgui-java-natives-$osName" % "1.84.1.0"
-    ),
-    libraryDependencies += "org.lwjgl"       % "lwjgl-opengl"      % "3.2.3",
-    libraryDependencies += "org.lwjgl"       % "lwjgl-stb"         % "3.2.3",
-    libraryDependencies += "io.github.spair" % "imgui-java-lwjgl3" % "1.84.1.0"
+    name := "sunburst"
+  )
+
+lazy val sunburstCore = (project in file("sunburst-core"))
+  .settings(Dependencies.sunburstCore)
+
+lazy val sunburstEditor = (project in file("sunburst-editor"))
+  .dependsOn(sunburstCore)
+  .settings(
+    Compile / run / fork := true
   )
 
 lazy val example = (project in file("example"))
   .settings(
     name                          := "sunburst-example",
-    assembly / assemblyJarName    := "sunburst-example.jar",
+    Compile / run / fork          := true,
     Compile / run / baseDirectory := {
       val f = file("sandbox")
       IO.createDirectory(f)
       f
     }
   )
-  .dependsOn(core)
+  .dependsOn(sunburstCore)
+
+// format: off
+Compile / doc / scalacOptions ++= Seq(
+  "-groups",
+  "-project-version", version.value,
+  "-social-links:github::https://github.com/husenap/sunburst",
+  "-source-links:github://husenap/sunburst/develop",
+  "-siteroot", "."
+)
+// format: on

@@ -1,21 +1,21 @@
-package sunburst.graphics.framework
+package sunburst.core.graphics.framework
 
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL12.*
 import org.lwjgl.opengl.GL13.*
 import org.lwjgl.opengl.GL30.*
 
-class Texture:
+class Texture private:
   private val _textureId = Array(0)
 
-  def this(image: Image) =
-    this()
-    fromImage(image)
+  def textureId = _textureId(0)
 
-  def fromImage(image: Image) =
-    glGenTextures(_textureId)
+object Texture:
+  def fromImage(image: Image): Texture =
+    val texture = new Texture()
+    glGenTextures(texture._textureId)
     glActiveTexture(GL_TEXTURE0)
-    glBindTexture(GL_TEXTURE_2D, _textureId(0))
+    glBindTexture(GL_TEXTURE_2D, texture._textureId(0))
 
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_S, GL_REPEAT)
     glTexParameteri(GL_TEXTURE_2D, GL_TEXTURE_WRAP_T, GL_REPEAT)
@@ -35,4 +35,4 @@ class Texture:
     )
     glGenerateMipmap(GL_TEXTURE_2D)
 
-  def textureId = _textureId(0)
+    texture
