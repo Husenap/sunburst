@@ -1,4 +1,4 @@
-package sunburst.graphics.framework
+package sunburst.core.graphics.framework
 
 import org.lwjgl.BufferUtils
 import org.lwjgl.stb.STBImage

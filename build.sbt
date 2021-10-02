@@ -1,32 +1,33 @@
+import sunburst._
+
 ThisBuild / organization := "Husenap"
 ThisBuild / version      := "0.2.0"
 ThisBuild / scalaVersion := "3.0.2"
 
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
-lazy val osNames      = Seq("linux", "windows", "macos")
-lazy val lwjglModules = Seq("lwjgl", "lwjgl-glfw", "lwjgl-stb")
-
-lazy val dependencies = Seq(
-  libraryDependencies ++= lwjglModules
-    .map(module =>
-      osNames.map(osName =>
-        "org.lwjgl" % s"$module" % "3.2.3" classifier s"natives-$osName"
-      )
-    )
-    .flatten,
-  libraryDependencies ++= osNames.map(osName =>
-    "io.github.spair" % s"imgui-java-natives-$osName" % "1.84.1.0"
-  ),
-  libraryDependencies += "org.lwjgl"       % "lwjgl-opengl"      % "3.2.3",
-  libraryDependencies += "org.lwjgl"       % "lwjgl-stb"         % "3.2.3",
-  libraryDependencies += "io.github.spair" % "imgui-java-lwjgl3" % "1.84.1.0"
+lazy val userProjects: Seq[ProjectReference] = List[ProjectReference](
+  sunburstCore
 )
 
-lazy val core = (project in file("."))
-  .settings(dependencies)
+lazy val aggregatedProjects: Seq[ProjectReference] =
+  userProjects ++ List[ProjectReference](
+    sunburstEditor
+  )
+
+lazy val root = (project in file("."))
+  .aggregate(aggregatedProjects: _*)
   .settings(
     name := "sunburst"
+  )
+
+lazy val sunburstCore = (project in file("sunburst-core"))
+  .settings(Dependencies.sunburstCore)
+
+lazy val sunburstEditor = (project in file("sunburst-editor"))
+  .dependsOn(sunburstCore)
+  .settings(
+    Compile / run / fork := true
   )
 
 lazy val example = (project in file("example"))
@@ -39,7 +40,7 @@ lazy val example = (project in file("example"))
       f
     }
   )
-  .dependsOn(core)
+  .dependsOn(sunburstCore)
 
 // format: off
 Compile / doc / scalacOptions ++= Seq(

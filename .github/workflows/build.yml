@@ -28,6 +28,6 @@ jobs:
       if: ${{ matrix.conf.os == 'macos-latest' }}
       run: brew install sbt
 
-    - name: Compile
-      run: sbt compile
+    - name: Test
+      run: sbt test
 

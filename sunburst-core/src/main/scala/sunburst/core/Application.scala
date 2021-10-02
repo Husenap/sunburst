@@ -1,6 +1,6 @@
-package sunburst
+package sunburst.core
 
-import sunburst.window.Window
+import sunburst.core.window.Window
 
 class Application:
   lazy val window = Window()

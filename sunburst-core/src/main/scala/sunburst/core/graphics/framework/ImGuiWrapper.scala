@@ -1,4 +1,4 @@
-package sunburst.graphics.framework
+package sunburst.core.graphics.framework
 
 import imgui.ImGui
 import imgui.flag.ImGuiCol
@@ -41,6 +41,10 @@ object ImGuiWrapper:
     ImGui.getIO.setConfigFlags(ImGuiConfigFlags.ViewportsEnable)
     ImGui.getIO.setConfigFlags(ImGuiConfigFlags.DockingEnable)
     setupStyle()
+
+    ImGui.getIO.setIniFilename(
+      sunburst.core.io.FileLocator.locateTempFile("imgui.ini").toString
+    )
 
   private def setupStyle(): Unit =
     val style  = ImGui.getStyle()

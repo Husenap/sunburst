@@ -1,4 +1,4 @@
-package sunburst.window
+package sunburst.core.window
 
 import imgui.*
 import imgui.flag.ImGuiCol
@@ -18,7 +18,7 @@ import org.lwjgl.opengl.*
 import org.lwjgl.stb.*
 import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
-import sunburst.graphics.framework.*
+import sunburst.core.graphics.framework.*
 
 import java.nio.ByteBuffer
 import java.nio.file.Paths

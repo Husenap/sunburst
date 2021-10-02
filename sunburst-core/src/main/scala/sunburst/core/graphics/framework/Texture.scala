@@ -1,4 +1,4 @@
-package sunburst.graphics.framework
+package sunburst.core.graphics.framework
 
 import org.lwjgl.opengl.GL11.*
 import org.lwjgl.opengl.GL12.*

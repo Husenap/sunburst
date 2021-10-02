@@ -1,8 +1,8 @@
-import sunburst.window.Window
+import sunburst.core.window.Window
 import imgui.ImGui
-import sunburst.graphics.framework.*
+import sunburst.core.graphics.framework.*
 
-class Example extends sunburst.Application:
+class Example extends sunburst.core.Application:
   var image: Image     = null
   var texture: Texture = null
 
