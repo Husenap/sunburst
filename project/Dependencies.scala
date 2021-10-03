@@ -1,5 +1,3 @@
-package sunburst
-
 import sbt._
 import Keys._
 
