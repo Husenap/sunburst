@@ -19,17 +19,17 @@ addCommandAlias(
 
 ThisBuild / onLoadMessage :=
   s"""|
-      |╭─────────────────────────────────╮
-      |│     List of defined ${styled("aliases")}     │
-      |├─────────────┬───────────────────┤
-      |│ ${styled("ls")}          │ projects          │
-      |│ ${styled("cd")}          │ project           │
-      |│ ${styled("c")}           │ compile           │
-      |│ ${styled("ca")}          │ compile all       │
-      |│ ${styled("cl")}          │ clean             │
-      |│ ${styled("t")}           │ test              │
-      |│ ${styled("r")}           │ run               │
-      |│ ${styled("re")}          │ reload            │
-      |│ ${styled("styleCheck")}  │ fmt & fix checks  │
-      |│ ${styled("styleFix")}    │ fix then fmt      │
-      |╰─────────────┴───────────────────╯""".stripMargin
+      |===================================
+      ||     List of defined ${styled("aliases")}     |
+      |===================================
+      || ${styled("ls")}          | projects          |
+      || ${styled("cd")}          | project           |
+      || ${styled("c")}           | compile           |
+      || ${styled("ca")}          | compile all       |
+      || ${styled("cl")}          | clean             |
+      || ${styled("t")}           | test              |
+      || ${styled("r")}           | run               |
+      || ${styled("re")}          | reload            |
+      || ${styled("styleCheck")}  | fmt & fix checks  |
+      || ${styled("styleFix")}    | fix then fmt      |
+      |===================================""".stripMargin
