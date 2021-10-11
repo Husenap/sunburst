@@ -4,7 +4,7 @@ case class Mat3 private (x: Vec3, y: Vec3, z: Vec3):
   def +(m: Mat3) = Mat3(x + m.x, y + m.y, z + m.z)
   def -(m: Mat3) = Mat3(x - m.x, y - m.y, z - m.z)
 
-  def *(m: Mat3): Mat3 = Mat3(
+  def *(m: Mat3): Mat3  = Mat3(
     Vec3(
       x.x * m.x.x + x.y * m.y.x + x.z * m.z.x,
       x.x * m.x.y + x.y * m.y.y + x.z * m.z.y,
@@ -21,7 +21,8 @@ case class Mat3 private (x: Vec3, y: Vec3, z: Vec3):
       z.x * m.x.z + z.y * m.y.z + z.z * m.z.z
     )
   )
-  def *(v: Vec3): Vec3 =
+  def *(s: Float): Mat3 = Mat3(x * s, y * s, z * s)
+  def *(v: Vec3): Vec3  =
     Vec3(
       x.x * v.x + x.y * v.y + x.z * v.z,
       y.x * v.x + y.y * v.y + y.z * v.z,
@@ -29,6 +30,24 @@ case class Mat3 private (x: Vec3, y: Vec3, z: Vec3):
     )
 
   def transposed: Mat3 = Mat3(x.x, y.x, z.x, x.y, y.y, z.y, x.z, y.z, z.z)
+
+  def determinant: Float =
+    (x.x * y.y * z.z + x.y * y.z * z.x + x.z * y.x * z.y) - (z.x * y.y * x.z + z.y * y.z * x.x + z.z * y.x * x.y)
+
+  def inverse: Mat3 =
+    val det = determinant
+    assert(det != 0f, "Matrix Inverse doesn't exist!")
+    Mat3(
+      +(y.y * z.z - z.y * y.z),
+      -(x.y * z.z - z.y * x.z),
+      +(x.y * y.z - y.y * x.z),
+      -(y.x * z.z - z.x * y.z),
+      +(x.x * z.z - z.x * x.z),
+      -(x.x * y.z - y.x * x.z),
+      +(y.x * z.y - z.x * y.y),
+      -(x.x * z.y - z.x * x.y),
+      +(x.x * y.y - y.x * x.y)
+    ) * (1f / det)
 
   def apply(row: Int): Vec3 =
     require(row >= 0 && row <= 2, "component index out of bounds")
@@ -40,15 +59,15 @@ object Mat3:
   def apply(x: Vec3, y: Vec3, z: Vec3) = new Mat3(x, y, z)
 
   def apply(
-      m00: Float,
-      m01: Float,
-      m02: Float,
-      m10: Float,
-      m11: Float,
-      m12: Float,
-      m20: Float,
-      m21: Float,
-      m22: Float
+      m00: Float = 1,
+      m01: Float = 0,
+      m02: Float = 0,
+      m10: Float = 0,
+      m11: Float = 1,
+      m12: Float = 0,
+      m20: Float = 0,
+      m21: Float = 0,
+      m22: Float = 1
   ): Mat3 = Mat3(Vec3(m00, m01, m02), Vec3(m10, m11, m12), Vec3(m20, m21, m22))
 
-  lazy val identity = Mat3(Vec3(1, 0, 0), Vec3(0, 1, 0), Vec3(0, 0, 1))
+  final val Identity = Mat3()

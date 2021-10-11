@@ -57,7 +57,7 @@ class Vec3Spec extends AnyWordSpec with should.Matchers:
       Vec3(3, 4, 0).magnitude shouldBe 5
       Vec3(3, 4, 0).magnitudeSquared shouldBe 25
       Vec3(1, 2, 3).magnitude shouldBe 3.74f +- 0.01f
-      Vec3.zero.magnitude shouldBe 0
+      Vec3.Zero.magnitude shouldBe 0
     }
 
     "be able to calculate a cross product" in {

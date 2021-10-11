@@ -63,7 +63,7 @@ class QuaternionSpec extends AnyWordSpec with should.Matchers:
         -0.133f
       )).magnitude shouldBe 0.0f +- 0.001f
       intercept[java.lang.AssertionError] {
-        Quaternion(0, Vec3.zero).inverse
+        Quaternion(0, Vec3.Zero).inverse
       }
     }
 

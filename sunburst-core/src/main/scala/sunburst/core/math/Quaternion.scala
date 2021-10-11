@@ -39,11 +39,16 @@ object Quaternion:
     new Quaternion(w, Vec3(x, y, z))
   def apply(w: Float, v: Vec3): Quaternion                      = new Quaternion(w, v)
 
-  def fromAxisAndAngle(axis: Vec3, angle: Float): Quaternion = Quaternion(
-    math.cos(angle / 2).toFloat,
-    axis.normalized * math.sin(angle / 2).toFloat
-  )
-  def rotateAroundAxis(v: Vec3, axis: Vec3, angle: Float): Vec3 =
+  def fromAxisAndAngle(axis: Vec3, angle: Float): Quaternion =
+    Quaternion(
+      math.cos(angle / 2).toFloat,
+      axis.normalized * math.sin(angle / 2).toFloat
+    )
+  def rotateAroundAxis(
+      v: Vec3,
+      axis: Vec3,
+      angle: Float
+  ): Vec3 =
     val q  = fromAxisAndAngle(axis.normalized, angle)
     val qv = Quaternion(0, v)
     (q * qv * q.inverse).v
