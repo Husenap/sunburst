@@ -3,34 +3,28 @@ package sunburst.core.graphics.framework
 import org.lwjgl.BufferUtils
 import org.lwjgl.stb.STBImage
 import java.nio.ByteBuffer
+import sunburst.core.io.FileLocator
 
-class Image private:
-  private var _pixels: ByteBuffer = null
-  private val _width              = Array(0)
-  private val _height             = Array(0)
-  private val _channels           = Array(0)
-
-  def width    = _width(0)
-  def height   = _height(0)
-  def channels = _channels(0)
-  def pixels   = _pixels
+class Image private (
+    val pixels: ByteBuffer,
+    val width: Int,
+    val height: Int,
+    val channels: Int
+)
 
 object Image:
   def fromFile(imagePath: String): Image =
-    val image       = new Image()
-    val classloader = Thread.currentThread.getContextClassLoader
-    val is          = classloader.getResourceAsStream(imagePath)
-    val bytes       = is.readAllBytes()
-    val data        = BufferUtils.createByteBuffer(bytes.length)
-    data.put(bytes)
-    data.flip()
+    val data = FileLocator.readFileToByteBuffer(imagePath)
 
-    image._pixels = STBImage.stbi_load_from_memory(
+    val width    = Array(0)
+    val height   = Array(0)
+    val channels = Array(0)
+    val pixels   = STBImage.stbi_load_from_memory(
       data,
-      image._width,
-      image._height,
-      image._channels,
+      width,
+      height,
+      channels,
       4
     )
 
-    image
+    new Image(pixels, width(0), height(0), channels(0))
