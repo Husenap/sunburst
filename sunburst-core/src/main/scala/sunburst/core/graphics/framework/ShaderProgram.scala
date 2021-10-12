@@ -8,10 +8,13 @@ class ShaderProgram private (val program: Int):
     if log.isBlank then None else Some(log)
 
   def attributeLocation(name: String): Int =
-    glGetAttribLocation(program, ArrayCharSequence(name.toArray))
+    glGetAttribLocation(program, name)
 
   def uniformLocation(name: String): Int =
-    glGetUniformLocation(program, ArrayCharSequence(name.toArray))
+    glGetUniformLocation(program, name)
+
+  def use(): Unit =
+    glUseProgram(program)
 
 object ShaderProgram:
   def fromShaders(shaders: Shader*): ShaderProgram =

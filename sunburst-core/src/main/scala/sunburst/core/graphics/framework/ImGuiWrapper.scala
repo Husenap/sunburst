@@ -89,7 +89,7 @@ object ImGuiWrapper:
     style.setColor(ImGuiCol.TabUnfocused, 0.25f, 0.25f, 0.25f, 1.00f)
     style.setColor(ImGuiCol.TabUnfocusedActive, 0.33f, 0.33f, 0.33f, 1.00f)
     style.setColor(ImGuiCol.DockingPreview, 1.00f, 0.37f, 0.64f, 1.00f)
-    style.setColor(ImGuiCol.DockingEmptyBg, 0.75f, 0.28f, 0.47f, 1.00f)
+    style.setColor(ImGuiCol.DockingEmptyBg, 0.75f, 0.28f, 0.47f, 0.00f)
     style.setColor(ImGuiCol.PlotLines, 0.61f, 0.61f, 0.61f, 1.00f)
     style.setColor(ImGuiCol.PlotLinesHovered, 1.00f, 0.72f, 0.30f, 1.00f)
     style.setColor(ImGuiCol.PlotHistogram, 0.68f, 0.84f, 0.51f, 1.00f)

@@ -1,14 +1,19 @@
 package sunburst.core
 
 import sunburst.core.window.Window
+import sunburst.core.window.WindowOptions
 
 abstract class Application:
-  lazy val window = Window()
+  var window: Window = compiletime.uninitialized
 
   private def getCurrentTime: Float = System.nanoTime() / 1e9f
 
   final def run() =
-    window.init()
+    window = Window(
+      WindowOptions(
+        vSync = true
+      )
+    )
     init()
 
     var currentTime = getCurrentTime
@@ -22,8 +27,8 @@ abstract class Application:
       currentTime = newTime
       accumulator += frameTime
 
+      window.pollEvents()
       while accumulator >= dt do
-        window.pollEvents()
         tick(t, dt)
         t += dt
         accumulator -= dt

@@ -18,7 +18,7 @@ object Shader:
     val shader = glCreateShader(shaderTypeToInt(shaderType))
     val source = FileLocator.readFileToString(shaderPath)
 
-    glShaderSource(shader, ArrayCharSequence(source.toArray))
+    glShaderSource(shader, source)
     glCompileShader(shader)
 
     new Shader(shader)
