@@ -36,8 +36,13 @@ class Example extends sunburst.core.Application:
       case Some(e) => println(s"Failed to create shader program:\n$e")
       case None    => println("Successfully created shader program")
 
-    val vertices =
-      Array(-0.5f, -0.5f, 0.0f, 0.5f, -0.5f, 0.0f, 0.0f, 0.5f, 0.0f)
+    val vertices = Array(
+      0.5f, 0.5f, 0.0f,   // top right
+      0.5f, -0.5f, 0.0f,  // bottom right
+      -0.5f, -0.5f, 0.0f, // bottom left
+      -0.5f, 0.5f, 0.0f   // top left
+    )
+    val indices  = Array(0, 1, 3, 1, 2, 3)
 
     vao = glGenVertexArrays()
     glBindVertexArray(vao)
@@ -47,6 +52,10 @@ class Example extends sunburst.core.Application:
     glBufferData(GL_ARRAY_BUFFER, vertices, GL_STATIC_DRAW)
     glVertexAttribPointer(0, 3, GL_FLOAT, false, 3 * 4, 0L)
     glEnableVertexAttribArray(0)
+
+    val ebo = glGenBuffers()
+    glBindBuffer(GL_ELEMENT_ARRAY_BUFFER, ebo)
+    glBufferData(GL_ELEMENT_ARRAY_BUFFER, indices, GL_STATIC_DRAW)
 
     glBindVertexArray(0)
 
@@ -59,7 +68,7 @@ class Example extends sunburst.core.Application:
     glClear(GL_COLOR_BUFFER_BIT)
     shaderProgram.use()
     glBindVertexArray(vao)
-    glDrawArrays(GL_TRIANGLES, 0, 3)
+    glDrawElements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, 0)
 
     ImGui.pushStyleColor(ImGuiCol.WindowBg, 0f, 0f, 0f, 0f)
     ImGui.dockSpaceOverViewport()
