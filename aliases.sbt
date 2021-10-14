@@ -8,6 +8,7 @@ addCommandAlias("ca", "Test / compile")
 addCommandAlias("t", "test")
 addCommandAlias("r", "run")
 addCommandAlias("re", "reload")
+addCommandAlias("asm", "assembly")
 addCommandAlias(
   "styleCheck",
   "scalafmtSbtCheck; scalafmtCheckAll; Test / compile; scalafixAll --check"
@@ -32,4 +33,5 @@ ThisBuild / onLoadMessage :=
       || ${styled("re")}          | reload            |
       || ${styled("styleCheck")}  | fmt & fix checks  |
       || ${styled("styleFix")}    | fix then fmt      |
+      || ${styled("asm")}         | assembly          |
       |#=================================#""".stripMargin

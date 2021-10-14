@@ -17,7 +17,9 @@ lazy val sunburstEditor = sunburstProject("sunburst-editor")
 
 lazy val example = sunburstProject("sunburst-example")
   .settings(
-    Compile / run / fork := true
+    Compile / run / fork       := true,
+    assembly / assemblyJarName := "example.jar",
+    Assembly.strategy
   )
   .dependsOn(sunburstCore)
 
