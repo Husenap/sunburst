@@ -16,19 +16,29 @@ object FileLocator:
     if !Files.exists(file) then Files.createFile(file)
     file
 
-  def readFileToByteBuffer(filePath: String): ByteBuffer =
-    val classloader = Thread.currentThread.getContextClassLoader
-    val is          = classloader.getResourceAsStream(filePath)
-    val bytes       = is.readAllBytes()
-    val data        =
+  def readFileToByteArray(
+      filePath: String,
+      classloader: ClassLoader = Thread.currentThread.getContextClassLoader
+  ): Array[Byte] =
+    val is = classloader.getResourceAsStream(filePath)
+    is.readAllBytes()
+
+  def readFileToByteBuffer(
+      filePath: String,
+      classloader: ClassLoader = Thread.currentThread.getContextClassLoader
+  ): ByteBuffer =
+    val bytes = readFileToByteArray(filePath)
+    val data  =
       ByteBuffer.allocateDirect(bytes.length).order(ByteOrder.nativeOrder())
     data.put(bytes)
     data.flip()
     data
 
-  def readFileToString(filePath: String): String =
-    val classloader = Thread.currentThread.getContextClassLoader
-    val url         = classloader.getResource(filePath)
+  def readFileToString(
+      filePath: String,
+      classloader: ClassLoader = Thread.currentThread.getContextClassLoader
+  ): String =
+    val url = classloader.getResource(filePath)
     assert(url != null, s"File not found: $filePath")
-    val bs          = scala.io.Source.fromURL(url)
+    val bs  = scala.io.Source.fromURL(url)
     bs.getLines.mkString("\n")

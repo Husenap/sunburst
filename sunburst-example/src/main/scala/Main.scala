@@ -8,7 +8,6 @@ import org.lwjgl.opengl.GL15.*
 import org.lwjgl.opengl.GL20.*
 import org.lwjgl.opengl.GL30.*
 import sunburst.core.graphics.framework.*
-import sunburst.core.window.Window
 
 import java.nio.ByteBuffer
 
@@ -59,8 +58,6 @@ class Example extends sunburst.core.Application:
 
     glBindVertexArray(0)
 
-    window.subscribe(this, e => println(s"$e"))
-
   override def tick(t: Float, dt: Float): Unit =
     f = math.sin(t).toFloat * 200f + 600f
 
@@ -80,4 +77,4 @@ class Example extends sunburst.core.Application:
 
 @main def main: Unit =
   try Example().run()
-  catch case e: Exception => e.printStackTrace()
+  catch case e: Throwable => e.printStackTrace()

@@ -1,5 +1,6 @@
 package sunburst.core.graphics.framework
 
+import imgui.ImFontConfig
 import imgui.ImGui
 import imgui.flag.ImGuiCol
 import imgui.flag.ImGuiConfigFlags
@@ -7,6 +8,7 @@ import imgui.flag.ImGuiDir
 import imgui.gl3.ImGuiImplGl3
 import imgui.glfw.ImGuiImplGlfw
 import org.lwjgl.glfw.GLFW.*
+import sunburst.core.io.FileLocator
 
 object ImGuiWrapper:
   private lazy val imGuiGlfw = ImGuiImplGlfw()
@@ -47,6 +49,18 @@ object ImGuiWrapper:
     )
 
   private def setupStyle(): Unit =
+    ImGui
+      .getIO()
+      .getFonts
+      .addFontFromMemoryTTF(
+        FileLocator.readFileToByteArray(
+          "fonts/Roboto-Regular.ttf",
+          getClass.getClassLoader
+        ),
+        16.0f,
+        ImFontConfig()
+      )
+
     val style  = ImGui.getStyle()
     val colors = style.getColors()
 

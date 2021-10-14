@@ -11,7 +11,9 @@ lazy val sunburstCore = sunburstProject("sunburst-core")
 
 lazy val sunburstEditor = sunburstProject("sunburst-editor")
   .settings(
-    Compile / run / fork := true
+    Compile / run / fork       := true,
+    assembly / assemblyJarName := "sunburst-editor.jar",
+    Assembly.strategy
   )
   .dependsOn(sunburstCore)
 
