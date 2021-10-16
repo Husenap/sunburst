@@ -22,11 +22,17 @@ case class Quaternion private (w: Float, v: Vec3):
     assert(magnitudeSquared != 0.0f, "zero-quaternion doesn't have an inverse")
     conjugate / magnitudeSquared
 
-  def rotationMatrix: Mat3 =
-    Mat3(
-      Vec3(1 - 2 * (y * y + z * z), 2 * (x * y - w * z), 2 * (z * x + w * y)),
-      Vec3(2 * (x * y + w * z), 1 - 2 * (x * x + z * z), 2 * (y * z - w * x)),
-      Vec3(2 * (z * x - w * y), 2 * (y * z + w * x), 1 - 2 * (x * x + y * y))
+  def rotationMatrix: Mat4 =
+    Mat4(
+      m00 = 1 - 2 * (y * y + z * z),
+      m01 = 2 * (x * y - w * z),
+      m02 = 2 * (z * x + w * y),
+      m10 = 2 * (x * y + w * z),
+      m11 = 1 - 2 * (x * x + z * z),
+      m12 = 2 * (y * z - w * x),
+      m20 = 2 * (z * x - w * y),
+      m21 = 2 * (y * z + w * x),
+      m22 = 1 - 2 * (x * x + y * y)
     )
 
   def x = v.x

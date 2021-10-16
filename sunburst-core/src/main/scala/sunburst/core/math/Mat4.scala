@@ -122,18 +122,38 @@ object Mat4:
       // format: on
     )
 
-  def perspectiveMatrix(
+  def perspectiveProjectionHorizontal(
+      fovX: Float,
+      aspect: Float,
+      near: Float,
+      far: Float
+  ): Mat4 =
+    val a  = 1f / math.tan(fovX * (math.Pi / 180f) * 0.5f).toFloat
+    val b  = a * aspect
+    val fn = far - near
+    val c  = far / fn
+    val d  = 1f
+    val e  = -near * far / fn
+    Mat4(a, 0, 0, 0, 0, b, 0, 0, 0, 0, c, d, 0, 0, e, 0)
+
+  def perspectiveProjectionVertical(
       fovY: Float,
       aspect: Float,
       near: Float,
       far: Float
   ): Mat4 =
-    val fov = fovY / aspect
-    val b   = 1f / math.tan(fov * math.Pi / 360f).toFloat
-    val a   = b / aspect
-    val c   = far / (far - near)
-    val d   = 1f
-    val e   = -near * far / (far - near)
+    val b  = 1f / math.tan(fovY * (math.Pi / 180f) * 0.5f).toFloat
+    val a  = b / aspect
+    val fn = far - near
+    val c  = far / fn
+    val d  = 1f
+    val e  = -near * far / fn
     Mat4(a, 0, 0, 0, 0, b, 0, 0, 0, 0, c, d, 0, 0, e, 0)
+
+  def translation(t: Vec3): Mat4 =
+    Mat4(m30 = t.x, m31 = t.y, m32 = t.z)
+
+  def scale(s: Vec3): Mat4 =
+    Mat4(m00 = s.x, m11 = s.y, m22 = s.z)
 
   final val Identity = Mat4()

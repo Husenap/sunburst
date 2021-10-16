@@ -3,17 +3,13 @@ package sunburst.core
 import sunburst.core.window.Window
 import sunburst.core.window.WindowOptions
 
-abstract class Application:
+abstract class Application(windowOptions: WindowOptions = WindowOptions()):
   var window: Window = compiletime.uninitialized
 
   private def getCurrentTime: Float = System.nanoTime() / 1e9f
 
   final def run() =
-    window = Window(
-      WindowOptions(
-        vSync = true
-      )
-    )
+    window = Window(windowOptions)
     init()
 
     var currentTime = getCurrentTime

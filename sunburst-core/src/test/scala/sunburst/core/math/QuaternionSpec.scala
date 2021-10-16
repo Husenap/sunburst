@@ -74,14 +74,16 @@ class QuaternionSpec extends AnyWordSpec with should.Matchers:
         .rotationMatrix
 
       val epsilon = rm -
-        Mat3(
-          Vec3(0.536f, -0.623f, 0.57f),
-          Vec3(0.766f, 0.643f, -0.017f),
-          Vec3(-0.356, 0.446f, 0.821f)
+        Mat4(
+          Vec4(0.536f, -0.623f, 0.57f, 0),
+          Vec4(0.766f, 0.643f, -0.017f, 0),
+          Vec4(-0.356, 0.446f, 0.821f, 0),
+          Vec4(0, 0, 0, 1)
         )
       epsilon.x.magnitude shouldBe 0.0f +- 0.001f
       epsilon.y.magnitude shouldBe 0.0f +- 0.001f
       epsilon.z.magnitude shouldBe 0.0f +- 0.001f
+      epsilon.w.magnitude shouldBe 0.0f +- 0.001f
     }
 
     "be able to rotate a vector around an axis" in {

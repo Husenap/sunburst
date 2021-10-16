@@ -1,6 +1,7 @@
 package sunburst.core.graphics.framework
 
 import org.lwjgl.opengl.GL20.*
+import sunburst.core.math.*
 
 class ShaderProgram private (val program: Int):
   def error: Option[String] =
@@ -16,14 +17,16 @@ class ShaderProgram private (val program: Int):
   def uniformLocation(name: String): Int =
     glGetUniformLocation(program, name)
 
-  def setFloat(name: String, value: Float): Unit  =
-    setFloat(uniformLocation(name), value)
-  def setFloat(location: Int, value: Float): Unit =
-    glUniform1f(location, value)
-  def setInt(name: String, value: Int): Unit      =
-    setInt(uniformLocation(name), value)
-  def setInt(location: Int, value: Int): Unit     =
-    glUniform1i(location, value)
+  def set[A](name: String, value: A): Unit =
+    set(uniformLocation(name), value)
+
+  def set[A](location: Int, value: A): Unit = value match
+    case v: Int   => glUniform1i(location, v)
+    case v: Float => glUniform1f(location, v)
+    case v: Vec3  => glUniform3fv(location, v.toArray)
+    case v: Vec4  => glUniform4fv(location, v.toArray)
+    case v: Mat3  => glUniformMatrix3fv(location, false, v.toArray)
+    case v: Mat4  => glUniformMatrix4fv(location, false, v.toArray)
 
 object ShaderProgram:
   def fromShaders(shaders: Shader*): ShaderProgram =
