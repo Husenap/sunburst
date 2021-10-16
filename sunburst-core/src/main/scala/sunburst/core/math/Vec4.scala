@@ -28,6 +28,8 @@ case class Vec4 private (x: Float, y: Float, z: Float, w: Float):
   def magnitudeSquared: Float   = dot(this)
   infix def dot(v: Vec4): Float = x * v.x + y * v.y + z * v.z + w * v.w
 
+  lazy val toArray: Array[Float] = Array(x, y, z, w)
+
 object Vec4:
   /** Creates a new vector with each component equal to the scalar.
    *  @param s Scalar value for each component

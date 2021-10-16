@@ -39,6 +39,8 @@ case class Vec3 private (
     x * v.y - y * v.x
   )
 
+  lazy val toArray: Array[Float] = Array(x, y, z)
+
 object Vec3:
   /** Creates a new vector with each component equal to the scalar.
    *  @param s Scalar value for each component

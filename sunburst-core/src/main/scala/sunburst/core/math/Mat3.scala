@@ -29,14 +29,14 @@ case class Mat3 private (x: Vec3, y: Vec3, z: Vec3):
       z.x * v.x + z.y * v.y + z.z * v.z
     )
 
-  def transposed: Mat3 = Mat3(x.x, y.x, z.x, x.y, y.y, z.y, x.z, y.z, z.z)
+  lazy val transposed: Mat3 = Mat3(x.x, y.x, z.x, x.y, y.y, z.y, x.z, y.z, z.z)
 
-  def determinant: Float =
-    (x.x * y.y * z.z + x.y * y.z * z.x + x.z * y.x * z.y) - (z.x * y.y * x.z + z.y * y.z * x.x + z.z * y.x * x.y)
+  lazy val determinant: Float =
+    (x.x * y.y * z.z + x.y * y.z * z.x + x.z * y.x * z.y) -
+      (z.x * y.y * x.z + z.y * y.z * x.x + z.z * y.x * x.y)
 
-  def inverse: Mat3 =
-    val det = determinant
-    assert(det != 0f, "Matrix Inverse doesn't exist!")
+  lazy val inverse: Mat3 =
+    assert(determinant != 0f, "Matrix Inverse doesn't exist!")
     Mat3(
       +(y.y * z.z - z.y * y.z),
       -(x.y * z.z - z.y * x.z),
@@ -47,13 +47,10 @@ case class Mat3 private (x: Vec3, y: Vec3, z: Vec3):
       +(y.x * z.y - z.x * y.y),
       -(x.x * z.y - z.x * x.y),
       +(x.x * y.y - y.x * x.y)
-    ) * (1f / det)
+    ) * (1f / determinant)
 
-  def apply(row: Int): Vec3 =
-    require(row >= 0 && row <= 2, "component index out of bounds")
-    if row == 0 then x
-    else if row == 1 then y
-    else z
+  lazy val toArray: Array[Float] =
+    Array(x.x, x.y, x.z, y.x, y.y, y.z, z.x, z.y, z.z)
 
 object Mat3:
   def apply(x: Vec3, y: Vec3, z: Vec3) = new Mat3(x, y, z)
