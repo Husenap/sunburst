@@ -83,6 +83,7 @@ class Window private (options: WindowOptions) extends EventEmitter[WindowEvent]:
       glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 0)
 
   def shouldClose: Boolean = glfwWindowShouldClose(_handle)
+  def close(): Unit        = glfwSetWindowShouldClose(_handle, true)
 
   def startFrame(): Unit =
     ImGuiWrapper.newFrame()
