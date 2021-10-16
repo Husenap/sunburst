@@ -16,6 +16,8 @@ object Image:
   def fromFile(imagePath: String): Image =
     val data = FileLocator.readFileToByteBuffer(imagePath)
 
+    STBImage.stbi_set_flip_vertically_on_load(true)
+
     val width    = Array(0)
     val height   = Array(0)
     val channels = Array(0)
