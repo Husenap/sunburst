@@ -20,6 +20,7 @@ import org.lwjgl.system.MemoryStack
 import org.lwjgl.system.MemoryUtil.*
 import sunburst.core.event.EventEmitter
 import sunburst.core.graphics.framework.*
+import sunburst.core.input.*
 
 import java.nio.ByteBuffer
 import java.nio.file.Paths
@@ -143,14 +144,13 @@ class Window private (options: WindowOptions) extends EventEmitter[WindowEvent]:
     glfwSetMouseButtonCallback(
       _handle,
       (_, button, action, mods) =>
-        val ac  = Action.fromOrdinal(action)
-        val btn = Button.fromOrdinal(button)
-        broadcast(WindowEvent.MouseButton(btn, ac, mods))
+        val ac = Action.fromOrdinal(action)
+        broadcast(WindowEvent.MouseButton(button, ac, mods))
         ac match
           case Action.Press   =>
-            broadcast(WindowEvent.MouseButtonPress(btn, mods))
+            broadcast(WindowEvent.MouseButtonPress(button, mods))
           case Action.Release =>
-            broadcast(WindowEvent.MouseButtonRelease(btn, mods))
+            broadcast(WindowEvent.MouseButtonRelease(button, mods))
           case _              => ()
     )
     glfwSetScrollCallback(

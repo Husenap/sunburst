@@ -2,14 +2,17 @@ package sunburst.core
 
 import sunburst.core.window.Window
 import sunburst.core.window.WindowOptions
+import sunburst.core.input.InputManager
 
 abstract class Application(windowOptions: WindowOptions = WindowOptions()):
-  var window: Window = compiletime.uninitialized
+  var window: Window             = compiletime.uninitialized
+  var inputManager: InputManager = compiletime.uninitialized
 
   private def getCurrentTime: Float = System.nanoTime() / 1e9f
 
   final def run() =
     window = Window(windowOptions)
+    inputManager = InputManager(window)
     init()
 
     var currentTime = getCurrentTime

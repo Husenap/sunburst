@@ -56,7 +56,7 @@ class Vec4Spec extends AnyWordSpec with should.Matchers:
       Vec4(0, 0, 3, 4).magnitude shouldBe 5
       Vec4(0, 0, 4, 3).magnitudeSquared shouldBe 25
       Vec4(1, 2, 3, 4).magnitude shouldBe 5.477f +- 0.01f
-      Vec4.zero.magnitude shouldBe 0
+      Vec4.Zero.magnitude shouldBe 0
     }
 
     "be normalizable" in {

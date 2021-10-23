@@ -1,13 +1,11 @@
 package sunburst.core.event
 
-import scala.collection.mutable
+import scala.collection.mutable.ArrayBuffer
 
 trait EventEmitter[A]:
-  private val subscribers = mutable.Map[Object, A => Unit]()
+  private val subscribers = ArrayBuffer[A => Unit]()
 
-  def subscribe(subscriber: Object, callback: A => Unit): Unit =
-    subscribers += subscriber -> callback
+  def onEvent(callback: A => Unit): Unit =
+    subscribers += callback
 
-  def unsubscribe(subscriber: Object): Unit = subscribers -= subscriber
-
-  def broadcast(event: A): Unit = subscribers.foreach((_, cb) => cb(event))
+  def broadcast(event: A): Unit = subscribers.foreach(_(event))

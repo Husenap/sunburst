@@ -14,6 +14,7 @@ import sunburst.core.window.*
 
 import java.awt.Window
 import java.nio.ByteBuffer
+import sunburst.core.graphics.Camera
 
 class Example
     extends sunburst.core.Application(
@@ -29,17 +30,14 @@ class Example
   var vbo: Int                     = 0
   var ebo: Int                     = 0
   var vao: Int                     = 0
-  var f: Float                     = 0f
-  var rotation                     = Quaternion()
-  var transform                    = Mat4.Identity
   val FOV                          = 90f
   var projection                   = calcProjection(1, 1)
-  val view                         = Mat4.translation(Vec3(0f, 0f, -3f))
+  val camera                       = Camera()
 
   def calcProjection(w: Float, h: Float) =
     Mat4.perspectiveProjectionVertical(FOV, w / h, 0.1f, 100f)
 
-  override def tickRate: Float = 1f / 24f
+  override def tickRate: Float = 1f / 60f
 
   override def init(): Unit =
     texture = Texture.fromImage(Image.fromFile("images/breakthrough.png"))
@@ -76,29 +74,17 @@ class Example
 
     glBindVertexArray(0)
 
-    window.subscribe(
-      this,
-      {
-        case WindowEvent.KeyPress(GLFW_KEY_ESCAPE, _, _) =>
-          window.close()
-        case WindowEvent.Resize(w, h)                    =>
-          glViewport(0, 0, w, h)
-          projection = calcProjection(w, h)
-        case _                                           =>
-      }
-    )
+    window.onEvent {
+      case WindowEvent.KeyPress(GLFW_KEY_ESCAPE, _, _) =>
+        window.close()
+      case WindowEvent.Resize(w, h)                    =>
+        glViewport(0, 0, w, h)
+        projection = calcProjection(w, h)
+      case _                                           =>
+    }
 
   override def tick(t: Float, dt: Float): Unit =
-    f = math.sin(t).toFloat * 200f + 600f
-    rotation *= Quaternion.fromAxisAndAngle(
-      Vec3(
-        math.cos(t * 0.9127f).toFloat,
-        math.sin(t).toFloat,
-        math.cos(t * 1.2137f).toFloat
-      ),
-      dt * 3f
-    )
-    transform = rotation.rotationMatrix
+    camera.update(dt, inputManager)
 
   lazy val cubePositions = Vector(
     Vec3(0.0f, 0.0f, 0.0f),
@@ -122,7 +108,7 @@ class Example
     texture.bind(0)
     glBindVertexArray(vao)
     shaderProgram.set[Mat4]("uProjection", projection)
-    shaderProgram.set[Mat4]("uView", view.inverse)
+    shaderProgram.set[Mat4]("uView", camera.viewMatrix)
     for i <- cubePositions.indices do
       val angle = 20f * i
       val model =
