@@ -1,5 +1,6 @@
 package sunburst.core.graphics.framework
 
+import imgui.ImFontConfig
 import imgui.ImGui
 import imgui.flag.ImGuiCol
 import imgui.flag.ImGuiConfigFlags
@@ -7,6 +8,7 @@ import imgui.flag.ImGuiDir
 import imgui.gl3.ImGuiImplGl3
 import imgui.glfw.ImGuiImplGlfw
 import org.lwjgl.glfw.GLFW.*
+import sunburst.core.io.FileLocator
 
 object ImGuiWrapper:
   private lazy val imGuiGlfw = ImGuiImplGlfw()
@@ -47,6 +49,18 @@ object ImGuiWrapper:
     )
 
   private def setupStyle(): Unit =
+    ImGui
+      .getIO()
+      .getFonts
+      .addFontFromMemoryTTF(
+        FileLocator.readFileToByteArray(
+          "fonts/Roboto-Regular.ttf",
+          getClass.getClassLoader
+        ),
+        16.0f,
+        ImFontConfig()
+      )
+
     val style  = ImGui.getStyle()
     val colors = style.getColors()
 
@@ -89,7 +103,7 @@ object ImGuiWrapper:
     style.setColor(ImGuiCol.TabUnfocused, 0.25f, 0.25f, 0.25f, 1.00f)
     style.setColor(ImGuiCol.TabUnfocusedActive, 0.33f, 0.33f, 0.33f, 1.00f)
     style.setColor(ImGuiCol.DockingPreview, 1.00f, 0.37f, 0.64f, 1.00f)
-    style.setColor(ImGuiCol.DockingEmptyBg, 0.75f, 0.28f, 0.47f, 1.00f)
+    style.setColor(ImGuiCol.DockingEmptyBg, 0.75f, 0.28f, 0.47f, 0.00f)
     style.setColor(ImGuiCol.PlotLines, 0.61f, 0.61f, 0.61f, 1.00f)
     style.setColor(ImGuiCol.PlotLinesHovered, 1.00f, 0.72f, 0.30f, 1.00f)
     style.setColor(ImGuiCol.PlotHistogram, 0.68f, 0.84f, 0.51f, 1.00f)

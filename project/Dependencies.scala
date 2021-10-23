@@ -1,5 +1,3 @@
-package sunburst
-
 import sbt._
 import Keys._
 
@@ -7,7 +5,7 @@ object Dependencies {
 
   object Compile {
     val osNames      = Seq("linux", "windows", "macos")
-    val lwjglModules = Seq("lwjgl", "lwjgl-glfw", "lwjgl-stb")
+    val lwjglModules = Seq("lwjgl", "lwjgl-glfw", "lwjgl-opengl", "lwjgl-stb")
 
     val lwjgl = (for (module <- lwjglModules) yield {
       for (osName <- osNames) yield {
@@ -16,7 +14,6 @@ object Dependencies {
     }).flatten
 
     val imgui = Seq(
-      "org.lwjgl"       % "lwjgl-opengl"      % "3.2.3",
       "org.lwjgl"       % "lwjgl-stb"         % "3.2.3",
       "io.github.spair" % "imgui-java-lwjgl3" % "1.84.1.0"
     ) ++ osNames.map(osName =>
@@ -24,12 +21,13 @@ object Dependencies {
     )
 
     object Test {
-      val scalatest = "org.scalatest" %% "scalatest" % "3.2.10"
+      val scalatest = "org.scalatest" %% "scalatest" % "3.2.10" % "test"
     }
   }
 
   import Compile._
 
-  val l            = libraryDependencies
-  val sunburstCore = l ++= Seq(Test.scalatest) ++ imgui ++ lwjgl
+  val l               = libraryDependencies
+  val sunburstCore    = l ++= Seq(Test.scalatest) ++ imgui ++ lwjgl
+  val sunburstNetcode = l ++= Seq(Test.scalatest)
 }
