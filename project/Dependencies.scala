@@ -27,6 +27,7 @@ object Dependencies {
 
   import Compile._
 
-  val l            = libraryDependencies
-  val sunburstCore = l ++= Seq(Test.scalatest) ++ imgui ++ lwjgl
+  val l               = libraryDependencies
+  val sunburstCore    = l ++= Seq(Test.scalatest) ++ imgui ++ lwjgl
+  val sunburstNetcode = l ++= Seq(Test.scalatest)
 }

@@ -5,9 +5,10 @@ ThisBuild / scalaVersion := "3.1.0-RC2"
 Global / onChangedBuildSource := ReloadOnSourceChanges
 
 lazy val sunburstCore = sunburstProject("sunburst-core")
-  .settings(
-    Dependencies.sunburstCore
-  )
+  .settings(Dependencies.sunburstCore)
+
+lazy val sunburstNetcode = sunburstProject("sunburst-netcode")
+  .settings(Dependencies.sunburstNetcode)
 
 lazy val sunburstEditor = sunburstProject("sunburst-editor")
   .settings(
