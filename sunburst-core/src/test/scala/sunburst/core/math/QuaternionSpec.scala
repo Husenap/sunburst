@@ -79,7 +79,7 @@ class QuaternionSpec extends AnyWordSpec with should.Matchers:
           Vec4(0.766f, 0.643f, -0.017f, 0),
           Vec4(-0.356, 0.446f, 0.821f, 0),
           Vec4(0, 0, 0, 1)
-        )
+        ).transposed
       epsilon.x.magnitude shouldBe 0.0f +- 0.001f
       epsilon.y.magnitude shouldBe 0.0f +- 0.001f
       epsilon.z.magnitude shouldBe 0.0f +- 0.001f
